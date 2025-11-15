@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مثال على الـ Agentic AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.8;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            text-align: center;
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 0.6s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: -30px -30px 25px -30px;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .card-icon {
+            font-size: 2em;
+            margin-left: 15px;
+        }
+
+        .method-box {
+            background: #f8f9ff;
+            border: 3px solid #667eea;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .method-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .step-list li {
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            border-right: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .step-list li:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+            margin-left: 10px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffd89b 0%, #19547b 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .flow-diagram {
+            background: #f0f4ff;
+            border: 2px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            line-height: 2;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.3em;
+            text-align: center;
+            font-style: italic;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 1.8em;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .card-header {
+                margin: -20px -20px 20px -20px;
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">🔧 مثال على الـ Agentic AI</h1>
+
+        <!-- المقدمة -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🎯</span>
+                إزاي الـ Agentic AI مختلف؟
+            </div>
+            <p>يلا نفهم الموضوع ده <span class="highlight">بمثال عملي</span> يوضح الفرق بين:</p>
+            <ul class="step-list">
+                <li>🧑‍💻 الشغل اليدوي (Manual Process)</li>
+                <li>🤖 الـ GenAI العادي (Basic GenAI)</li>
+                <li>🚀 الـ Agentic AI</li>
+            </ul>
+        </div>
+
+        <!-- السيناريو -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">📋</span>
+                المثال: حل مشكلة في برنامج
+            </div>
+            
+            <h3><span class="emoji">🎯</span> السيناريو:</h3>
+            <p>عندنا مشكلة في برنامج شغال على السيرفرات (Production). عايزين:</p>
+            
+            <ol class="step-list">
+                <li><strong>1.</strong> نفهم المشكلة من خلال السجلات (Logs)</li>
+                <li><strong>2.</strong> نحلل السبب الجذري للمشكلة</li>
+                <li><strong>3.</strong> نقترح حل</li>
+                <li><strong>4.</strong> ننفذ الحل</li>
+                <li><strong>5.</strong> نختبر التعديلات</li>
+                <li><strong>6.</strong> ننشر الكود الجديد على السيرفرات</li>
+            </ol>
+        </div>
+
+        <!-- الطريقة الأولى: يدوي -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🧑‍💻</span>
+                الطريقة الأولى: الشغل اليدوي
+            </div>
+            
+            <div class="method-box">
+                <h3>في الطريقة التقليدية:</h3>
+                <p><strong>المهندس البشري</strong> هو اللي بيعمل كل حاجة بإيده:</p>
+                
+                <ul class="step-list">
+                    <li>✋ بيقرأ السجلات (Logs)</li>
+                    <li>✋ بيفلتر ويحلل البيانات</li>
+                    <li>✋ بيفهم إيه السبب الحقيقي للمشكلة</li>
+                    <li>✋ بيقترح حل</li>
+                    <li>✋ بينفذ الحل ويختبره</li>
+                    <li>✋ بينشر التعديلات على السيرفرات</li>
+                </ul>
+            </div>
+            
+            <div class="quote-box">
+                كل خطوة = إنسان 👨‍💻
+            </div>
+        </div>
+
+        <!-- الطريقة الثانية: GenAI العادي -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🤖</span>
+                الطريقة الثانية: الـ GenAI العادي
+            </div>
+            
+            <p>هنا بنستخدم الذكاء الاصطناعي <strong>كمساعد</strong>:</p>
+            
+            <div class="method-box" style="border-color: #38a169;">
+                <h3><span class="emoji">🔍</span> دور الـ LLM:</h3>
+                <ul class="step-list">
+                    <li>يحلل السجلات ويفهم السبب الجذري للمشكلة</li>
+                    <li>يقترح حل للمشكلة</li>
+                </ul>
+            </div>
+            
+            <div class="method-box" style="border-color: #e53e3e;">
+                <h3><span class="emoji">👀</span> دور المهندس البشري:</h3>
+                <ul class="step-list">
+                    <li>يراجع الحل المقترح</li>
+                    <li>يقرر: هل الحل ده صح ولا لأ؟</li>
+                    <li>لو الحل كويس → <strong>المهندس</strong> هو اللي <strong>بينفذ</strong> التعديلات</li>
+                    <li><strong>المهندس</strong> هو اللي <strong>بينشر</strong> التغييرات</li>
+                </ul>
+            </div>
+            
+            <div class="flow-diagram">
+                الـ LLM = تحليل واقتراحات بس<br>
+                ⬇️<br>
+                <strong>القرار والتنفيذ</strong> = في إيد البشر
+            </div>
+        </div>
+
+        <!-- الطريقة الثالثة: Agentic AI -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🚀</span>
+                الطريقة الثالثة: الـ Agentic AI
+            </div>
+            
+            <p>هنا <strong>كل الخطوات</strong> بتتعمل بواسطة <span class="highlight">AI Agent</span> (وكيل ذكي مستقل):</p>
+            
+            <h3><span class="emoji">⚙️</span> إيه اللي بيحصل؟</h3>
+            
+            <div class="method-box">
+                <h3>1️⃣ تحليل المشكلة</h3>
+                <ul class="step-list">
+                    <li>الـ AI Agent بيستخدم الـ LLM عشان يقرأ السجلات</li>
+                    <li>يحلل البيانات ويفهم السبب الجذري</li>
+                </ul>
+            </div>
+            
+            <div class="method-box">
+                <h3>2️⃣ اقتراح الحل</h3>
+                <ul class="step-list">
+                    <li>الـ AI Agent بيستخدم الـ LLM تاني عشان يقترح حل</li>
+                </ul>
+            </div>
+            
+            <div class="method-box">
+                <h3>3️⃣ تنفيذ التعديلات</h3>
+                <ul class="step-list">
+                    <li>الـ AI Agent <strong>بنفسه</strong> بيعدل الكود</li>
+                    <li>بيتكامل مع أدوات زي:
+                        <ul style="margin-top: 10px;">
+                            <li>• <strong>GitHub</strong> (مستودعات الأكواد)</li>
+                            <li>• <strong>Jenkins</strong> (أدوات النشر)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="method-box">
+                <h3>4️⃣ نشر التعديلات</h3>
+                <ul class="step-list">
+                    <li>الـ AI Agent بينشر التعديلات على السيرفرات <strong>بشكل تلقائي</strong></li>
+                </ul>
+            </div>
+            
+            <div class="quote-box">
+                كل حاجة تلقائية من أول لآخر 🤖<br>
+                مفيش تدخل بشري في الخطوات الوسطانية
+            </div>
+        </div>
+
+        <!-- المقارنة السريعة -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">📊</span>
+                مقارنة سريعة
+            </div>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>المرحلة</th>
+                        <th>يدوي</th>
+                        <th>GenAI العادي</th>
+                        <th>Agentic AI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>تحليل المشكلة</strong></td>
+                        <td>🧑‍💻 إنسان</td>
+                        <td>🤖 LLM</td>
+                        <td>🤖 AI Agent</td>
+                    </tr>
+                    <tr>
+                        <td><strong>اقتراح الحل</strong></td>
+                        <td>🧑‍💻 إنسان</td>
+                        <td>🤖 LLM</td>
+                        <td>🤖 AI Agent</td>
+                    </tr>
+                    <tr>
+                        <td><strong>مراجعة الحل</strong></td>
+                        <td>🧑‍💻 إنسان</td>
+                        <td>🧑‍💻 <strong>إنسان</strong></td>
+                        <td>❌ مفيش (تلقائي)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>اتخاذ القرار</strong></td>
+                        <td>🧑‍💻 إنسان</td>
+                        <td>🧑‍💻 <strong>إنسان</strong></td>
+                        <td>🤖 <strong>AI Agent</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>تنفيذ التعديلات</strong></td>
+                        <td>🧑‍💻 إنسان</td>
+                        <td>🧑‍💻 إنسان</td>
+                        <td>🤖 AI Agent</td>
+                    </tr>
+                    <tr>
+                        <td><strong>النشر</strong></td>
+                        <td>🧑‍💻 إنسان</td>
+                        <td>🧑‍💻 إنسان</td>
+                        <td>🤖 AI Agent</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- الفكرة الأساسية -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🎯</span>
+                الفكرة الأساسية
+            </div>
+            
+            <div class="method-box" style="border-color: #667eea;">
+                <h3>GenAI العادي:</h3>
+                <div class="quote-box" style="background: #f0f4ff; color: #333; font-size: 1.1em;">
+                    "أنا هساعدك تفهم المشكلة وأقترح حل، <strong>لكن إنت اللي تقرر وتنفذ</strong>"
+                </div>
+            </div>
+            
+            <div class="method-box" style="border-color: #38a169;">
+                <h3>Agentic AI:</h3>
+                <div class="quote-box" style="background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);">
+                    "أنا هفهم المشكلة، <strong>أقرر الحل، وأنفذه وأنشره</strong>... كل ده <strong>لوحدي</strong>!"
+                </div>
+            </div>
+        </div>
+
+        <!-- الخطوة الجاية -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">🔜</span>
+                الخطوة الجاية
+            </div>
+            
+            <p>في باقي الكورس، هنستكشف أكتر:</p>
+            <ul class="step-list">
+                <li>✨ إزاي الـ Agentic AI بيحقق ده؟</li>
+                <li>🛠️ إيه الأدوات والتقنيات المستخدمة؟</li>
+                <li>👨‍💻 إزاي نبني AI Agents بنفسنا؟</li>
+            </ul>
+            
+            <div class="quote-box">
+                استنى الأجزاء الجاية! 🚀
+            </div>
+        </div>
+    </div>
+</body>
+</html>
