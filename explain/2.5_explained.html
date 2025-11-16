@@ -5,421 +5,659 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الأدوات في الـ Agentic AI</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
-            line-height: 1.8;
             direction: rtl;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
         .card {
             background: white;
             border-radius: 15px;
             padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: fadeInUp 0.6s;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .card:hover { transform: translateY(-5px); }
-        h1, h2, h3 { color: #667eea; margin: 20px 0 15px 0; }
-        h1 { text-align: center; color: white; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        p { margin: 15px 0; line-height: 1.8; }
-        ul, ol { margin: 15px 0; padding-right: 30px; }
-        li { margin: 10px 0; padding: 10px; background: #f8f9ff; border-radius: 5px; }
-        code { background: #f0f4ff; padding: 2px 8px; border-radius: 4px; font-family: 'Courier New', monospace; }
-        pre { background: #f0f4ff; padding: 15px; border-radius: 8px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        th { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; text-align: center; }
-        td { padding: 15px; border: 1px solid #ddd; }
-        tr:nth-child(even) { background: #f8f9ff; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { .card { padding: 20px; } h1 { font-size: 1.8em; } }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #e67e22;
+            padding-bottom: 10px;
+        }
+
+        .card-content {
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .code-card {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .code-card pre {
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ff9f43 0%, #feca57 100%);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .process-step {
+            background: #f8f9fa;
+            border-left: 5px solid #e67e22;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .important-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .important-note::before {
+            content: "💡 ";
+            font-size: 1.5rem;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-item {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #27ae60;
+        }
+
+        .arabic-text {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .routing-demo {
+            background: linear-gradient(45deg, #e67e22, #d35400);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .query-analysis {
+            background: #00b894;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .query-box {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #fdcb6e;
+        }
+
+        .engine-selection {
+            background: #6c5ce7;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+        }
+
+        td {
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-right: 30px;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        code {
+            background: #f0f4ff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        
-
-
-# الأدوات في الـ Agentic AI
-
-## 🛠️ يعني إيه Tool (أداة)؟
-
-**الأداة** في الـ Agentic AI ممكن تكون:
-- 💻 **إجراء برمجي** (Software procedure)
-- 🔧 **خدمة صغيرة** (Microservice)
-- ☁️ **خدمة سحابية** (Cloud service)
-
----
-
-## 🎯 دور الأداة
-
-**الأداة بتوفر:**
-- ✅ **خدمة محددة** للـ Agent
-- ✅ بتساعد الـ Agent ينفذ **إجراء مع كيان خارجي**
-
-**الإجراء ممكن يكون:**
-- 📥 **استرجاع معلومات** (Retrieving information)
-- ⚡ **إجراء تغييرات** على الكيان الخارجي (Performing changes)
-
----
-
-## 📚 أنواع الأدوات في الـ Agent
-
-### 💡 القاعدة الذهبية:
-> **أي خدمة أو تطبيق يمكن التكامل معه = أداة محتملة!**
-
-يلا نشوف الأنواع المختلفة:
-
----
-
-### 1️⃣ **قواعد المعرفة (Knowledge Bases)** 📚
-
-#### مثال: نظام RAG
-
-**RAG = Retrieval-Augmented Generation**
-
-**الاستخدام:**
-- 🔍 إجراء **بحث دلالي** (Semantic search)
-- 📄 استرجاع **الوثائق ذات الصلة**
-
-**مثال عملي:**
-```
-الهدف: "إيه سياسة الإجازات في الشركة؟"
-        ↓
-أداة RAG تبحث في:
-  - دليل الموظفين
-  - سياسات الموارد البشرية
-  - الوثائق الداخلية
-        ↓
-تسترجع المستندات المناسبة
-```
-
----
-
-### 2️⃣ **قواعد البيانات (Databases)** 🗄️
-
-**الأداة بتوفر عمليات CRUD:**
-
-| العملية | الوصف | مثال |
-|--------|------|------|
-| 📝 **Create** | إنشاء بيانات جديدة | إضافة عميل جديد |
-| 📖 **Read** | قراءة/استرجاع بيانات | جلب تفاصيل طلب |
-| ✏️ **Update** | تحديث بيانات موجودة | تعديل عنوان الشحن |
-| 🗑️ **Delete** | حذف بيانات | إلغاء طلب |
-
-**مثال عملي:**
-```sql
-الهدف: "اعرضلي كل الطلبات للعميل رقم 123"
-        ↓
-الأداة تنفذ:
-SELECT * FROM Orders WHERE customer_id = 123
-        ↓
-ترجع النتائج للـ Agent
-```
-
----
-
-### 3️⃣ **الدوال البرمجية (Software Functions)** ⚙️
-
-**الدالة ممكن تعمل:**
-- 🧮 **حسابات بسيطة** (Simple computation)
-- 🔗 **تكاملات معقدة** (Complex integrations)
-
-**الآلية:**
-- **تاخد مدخلات** (Takes inputs)
-- **ترجع مخرجات** للـ Agent (Returns outputs)
-
-**أمثلة:**
-
-#### مثال 1: حساب بسيط
-```python
-def calculate_discount(price, discount_percent):
-    """حساب السعر بعد الخصم"""
-    return price * (1 - discount_percent/100)
-```
-
-#### مثال 2: تكامل معقد
-```python
-def process_payment(order_id, amount, payment_method):
-    """معالجة الدفع عبر بوابة دفع خارجية"""
-    # التكامل مع Stripe أو PayPal
-    payment_gateway.charge(amount, payment_method)
-    update_order_status(order_id, "paid")
-    return {"status": "success", "transaction_id": "TXN123"}
-```
-
----
-
-### 4️⃣ **الخدمات الصغيرة (Microservices)** 🔧
-
-**الاستخدام:**
-- Microservices اللي جزء من **سير عمل تطبيق المؤسسة**
-- بتتكامل مع الـ Agent كأدوات
-
-**مثال:**
-```
-┌─────────────────────────────────────┐
-│   تطبيق التجارة الإلكترونية        │
-│                                     │
-│  ┌──────────┐  ┌──────────┐        │
-│  │ خدمة     │  │ خدمة     │        │
-│  │ الطلبات   │  │ المخزون  │        │
-│  └──────────┘  └──────────┘        │
-│       ↑              ↑              │
-│       └──────┬───────┘              │
-│              │                      │
-│         🤖 AI Agent                 │
-└─────────────────────────────────────┘
-```
-
-**سيناريو:**
-```
-الهدف: "اطلب 5 وحدات من المنتج A"
-        ↓
-1. Agent يستدعي خدمة المخزون:
-   "هل متوفر 5 وحدات؟"
-        ↓
-2. Agent يستدعي خدمة الطلبات:
-   "أنشئ طلب جديد"
-```
-
----
-
-### 5️⃣ **نماذج الذكاء الاصطناعي التوليدي (GenAI Models)** 🎨
-
-**متى تُستخدم؟**
-- لما توفر **وظيفة محددة** زي:
-
-| الوظيفة | المثال |
-|--------|--------|
-| 🖼️ **توليد صور** | DALL-E, Midjourney |
-| 🎥 **تحليل فيديو** | تحليل محتوى الفيديو |
-| 🌐 **الترجمة** | ترجمة بين اللغات |
-| 🎵 **توليد موسيقى** | توليد مقطوعات موسيقية |
-
-**مثال عملي:**
-```
-الهدف: "اعملي صورة لقطة برتقالية"
-        ↓
-Agent يستدعي أداة DALL-E:
-  Input: "An orange cat sitting on a couch"
-        ↓
-DALL-E تولد الصورة
-        ↓
-Agent يرجع الصورة للمستخدم
-```
-
----
-
-### 6️⃣ **منصات السحابة (Cloud Platforms)** ☁️
-
-**أمثلة:**
-- **Salesforce** - إدارة علاقات العملاء (CRM)
-- **Microsoft SharePoint** - إدارة المستندات والتعاون
-- **Google Workspace** - البريد والمستندات
-- **AWS Services** - خدمات الحوسبة السحابية
-
-**مثال: التكامل مع Salesforce**
-```
-الهدف: "أضف العميل الجديد للـ CRM"
-        ↓
-Agent يستخدم أداة Salesforce API:
-  - ينشئ سجل عميل جديد
-  - يضيف معلومات الاتصال
-  - يربطه بالفرصة البيعية
-        ↓
-يرجع تأكيد بنجاح العملية
-```
-
----
-
-### 7️⃣ **وكلاء ذكاء اصطناعي آخرون (Other AI Agents)** 🤖
-
-**الفكرة:**
-- الـ Agent الرئيسي يمكنه **استخدام Agent آخر** لأداء وظائف محددة
-- يعني **Agent يشغّل Agent**! 🤯
-
-**السيناريو:**
-```
-┌──────────────────────────────────┐
-│     Main Agent (الوكيل الرئيسي)  │
-│                                  │
-│  "حلل البيانات واعمل تقرير"      │
-└────────┬─────────────────────────┘
-         │
-         ├─→ 🤖 Data Analysis Agent
-         │   (متخصص في تحليل البيانات)
-         │
-         └─→ 🤖 Report Generation Agent
-             (متخصص في توليد التقارير)
-```
-
-**الفوائد:**
-- ✅ **التخصص**: كل Agent يعمل اللي هو شاطر فيه
-- ✅ **إعادة الاستخدام**: استخدام Agents موجودة فعلاً
-- ✅ **القابلية للتوسع**: سهولة إضافة Agents جديدة
-
----
-
-## 📋 ملفات تعريف الأدوات (Tool Profiles)
-
-### 🌟 ليه مهمة جداً؟
-
-> **ملفات تعريف الأدوات تلعب دور رئيسي في ضمان الاستخدام الفعال للأدوات بواسطة الـ Planner**
-
----
-
-### 🔑 ماذا يحتوي ملف تعريف الأداة؟
-
-في نظام AI Agent، الـ Orchestrator لازم **يُزوَّد بملف تعريف** لكل أداة يحتوي على:
-
-| **المعلومة** | **الوصف** |
-|-------------|----------|
-| 🎯 **الغرض** | Purpose - إيه الغرض من الأداة؟ |
-| ⚡ **القدرات** | Capabilities - إيه اللي تقدر تعمله؟ |
-| 📥 **المدخلات** | Inputs - إيه المدخلات المطلوبة؟ |
-| 📝 **تنسيق المدخلات** | Input formats - إزاي تكون المدخلات؟ |
-| ⚠️ **القيود** | Limits - إيه الحدود والقيود؟ |
-| 📤 **المخرجات** | Outputs - إيه اللي بترجعه؟ |
-| 🚨 **الأخطاء/الاستثناءات** | Errors/Exceptions - الأخطاء المحتملة |
-
----
-
-### 📝 مثال على ملف تعريف أداة
-
-#### أداة: `GetOrderDetails`
-
-```yaml
-الغرض (Purpose):
-  استرجاع تفاصيل طلب محدد من قاعدة البيانات
-
-القدرات (Capabilities):
-  - جلب معلومات الطلب الأساسية
-  - جلب قائمة المنتجات في الطلب
-  - جلب حالة الشحن
-  - جلب معلومات الدفع
-
-المدخلات (Inputs):
-  - order_id: رقم الطلب (مطلوب)
-    النوع: integer
-    مثال: 1001
-
-تنسيق المدخلات (Input Format):
-  JSON: {"order_id": 1001}
-
-القيود (Limits):
-  - order_id يجب أن يكون رقم موجب
-  - الحد الأقصى للطلبات: 1000 طلب في الدقيقة
-
-المخرجات (Outputs):
-  JSON object يحتوي على:
-  - order_id
-  - customer_name
-  - order_date
-  - items[]
-  - total_amount
-  - status
-
-الأخطاء/الاستثناءات (Errors):
-  - ORDER_NOT_FOUND: الطلب غير موجود
-  - INVALID_ORDER_ID: رقم الطلب غير صالح
-  - DATABASE_ERROR: خطأ في الاتصال بقاعدة البيانات
-```
-
----
-
-### 🧠 كيف يُستخدم ملف التعريف؟
-
-**الآلية:**
-1. المعلومات تُقدَّم عادة كـ**نص حر** (Free format text)
-2. يتم تقديمها للـ **LLM** لفهم قدرات الأداة
-3. الـ LLM يستخدم هذه المعلومات لـ:
-   - ✅ **اختيار** الأداة المناسبة
-   - ✅ **تحديد** المدخلات الصحيحة
-   - ✅ **معالجة** المخرجات والأخطاء
-
-**مثال:**
-```
-Planner: "أحتاج جلب تفاصيل الطلب 1001"
-        ↓
-LLM يقرأ ملف تعريف GetOrderDetails:
-  "هذه الأداة تسترجع تفاصيل الطلب
-   المدخل المطلوب: order_id
-   التنسيق: JSON"
-        ↓
-LLM يقرر: "استخدم GetOrderDetails"
-        ↓
-Executor ينفذ: GetOrderDetails({"order_id": 1001})
-```
-
----
-
-### 💾 الذاكرة طويلة المدى للأدوات
-
-**الـ Orchestrator ممكن يكون عنده ذاكرة طويلة المدى لـ:**
-
-| **المتتبَع** | **الفائدة** |
-|------------|----------|
-| 📊 **تتبع الاستخدام** | كم مرة استُخدمت الأداة؟ |
-| ✅ **فعالية الاستخدام** | هل الأداة بتدي نتائج جيدة؟ |
-| ⏱️ **وقت الاستجابة** | قد إيه الأداة سريعة؟ |
-| 🚨 **معدل الأخطاء** | كم مرة فشلت الأداة؟ |
-
-**الاستفادة:**
-- 🎯 **تحسين اختيار الأدوات** في المستقبل
-- 🔧 **تحديد الأدوات اللي تحتاج صيانة**
-- 📈 **تحسين الأداء العام** للنظام
-
----
-
-## 📊 جدول مقارنة أنواع الأدوات
-
-| **النوع** | **الاستخدام** | **مثال** | **التعقيد** |
-|----------|--------------|---------|-----------|
-| 📚 **Knowledge Base** | استرجاع معلومات | RAG | متوسط |
-| 🗄️ **Database** | CRUD operations | SQL queries | بسيط-متوسط |
-| ⚙️ **Function** | حسابات/تكاملات | Python function | بسيط-معقد |
-| 🔧 **Microservice** | عمليات المؤسسة | Order service | متوسط-معقد |
-| 🎨 **GenAI Model** | توليد محتوى | DALL-E | متوسط |
-| ☁️ **Cloud Platform** | خدمات خارجية | Salesforce API | معقد |
-| 🤖 **Other Agent** | مهام متخصصة | Analysis Agent | معقد |
-
----
-
-## 🎯 الخلاصة
-
-### الأدوات = القوة الحقيقية للـ Agent! 💪
-
-**النقاط الأساسية:**
-
-1. **تنوع الأدوات:**
-   - أي خدمة = أداة محتملة
-   - من البسيط للمعقد
-
-2. **ملفات التعريف:**
-   - ضرورية لفهم الـ LLM
-   - تحتوي على كل التفاصيل المهمة
-
-3. **الذاكرة:**
-   - تتبع الاستخدام
-   - تحسين مستمر
-
-4. **المرونة:**
-   - Agents يقدروا يستخدموا Agents تانية
-   - سهولة إضافة أدوات جديدة
-
-### المعادلة الناجحة:
-
-```
-أدوات متنوعة + ملفات تعريف واضحة + ذاكرة فعالة
-= 
-Agent قوي وقادر على تحقيق أهداف معقدة! 🚀
-```
-
-
+        <div class="header">
+            <h1>🚀 الأدوات في الـ Agentic AI</h1>
+            <p>شرح مفصل بالعامية المصرية</p>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🛠️ يعني إيه Tool (أداة)؟</h2>
+            <div class="card-content arabic-text">
+                <p><strong>الأداة</strong> في الـ Agentic AI ممكن تكون:</p>
+<ul>
+<li>💻 <strong>إجراء برمجي</strong> (Software procedure)</li>
+<li>🔧 <strong>خدمة صغيرة</strong> (Microservice)</li>
+<li>☁️ <strong>خدمة سحابية</strong> (Cloud service)</li>
+</ul>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🎯 دور الأداة</h2>
+            <div class="card-content arabic-text">
+                <p><strong>الأداة بتوفر:</strong></p>
+<ul>
+<li>✅ <strong>خدمة محددة</strong> للـ Agent</li>
+<li>✅ بتساعد الـ Agent ينفذ <strong>إجراء مع كيان خارجي</strong></li>
+</ul>
+<p><strong>الإجراء ممكن يكون:</strong></p>
+<ul>
+<li>📥 <strong>استرجاع معلومات</strong> (Retrieving information)</li>
+<li>⚡ <strong>إجراء تغييرات</strong> على الكيان الخارجي (Performing changes)</li>
+</ul>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">📚 أنواع الأدوات في الـ Agent</h2>
+            <div class="card-content arabic-text">
+                
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">💡 القاعدة الذهبية:</h2>
+            <div class="card-content arabic-text">
+                <p>> <strong>أي خدمة أو تطبيق يمكن التكامل معه = أداة محتملة!</strong></p>
+<p>يلا نشوف الأنواع المختلفة:</p>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">1️⃣ <strong>قواعد المعرفة (Knowledge Bases)</strong> 📚</h2>
+            <div class="card-content arabic-text">
+                
+
+                <div class="process-step">
+                    <h4>مثال: نظام RAG</h4>
+                    <p><strong>RAG = Retrieval-Augmented Generation</strong></p>
+<p><strong>الاستخدام:</strong></p>
+<ul>
+<li>🔍 إجراء <strong>بحث دلالي</strong> (Semantic search)</li>
+<li>📄 استرجاع <strong>الوثائق ذات الصلة</strong></li>
+</ul>
+<p><strong>مثال عملي:</strong></p>
+<div class="code-card"><pre>الهدف: "إيه سياسة الإجازات في الشركة؟"
+<p>↓</p>
+<p>أداة RAG تبحث في:</p>
+<ul>
+<li>دليل الموظفين</li>
+<li>سياسات الموارد البشرية</li>
+<li>الوثائق الداخلية</li>
+</ul>
+<p>↓</p>
+<p>تسترجع المستندات المناسبة</pre></div></p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">2️⃣ <strong>قواعد البيانات (Databases)</strong> 🗄️</h2>
+            <div class="card-content arabic-text">
+                <p><strong>الأداة بتوفر عمليات CRUD:</strong></p>
+<table>
+<tr><th>العملية</th><th>الوصف</th><th>مثال</th></tr>
+<tr><td>📝 <strong>Create</strong></td><td>إنشاء بيانات جديدة</td><td>إضافة عميل جديد</td></tr>
+<tr><td>📖 <strong>Read</strong></td><td>قراءة/استرجاع بيانات</td><td>جلب تفاصيل طلب</td></tr>
+<tr><td>✏️ <strong>Update</strong></td><td>تحديث بيانات موجودة</td><td>تعديل عنوان الشحن</td></tr>
+<tr><td>🗑️ <strong>Delete</strong></td><td>حذف بيانات</td><td>إلغاء طلب</td></tr>
+</table>
+<p><strong>مثال عملي:</strong></p>
+<div class="code-card"><pre>الهدف: "اعرضلي كل الطلبات للعميل رقم 123"
+<p>↓</p>
+<p>الأداة تنفذ:</p>
+<p>SELECT * FROM Orders WHERE customer_id = 123</p>
+<p>↓</p>
+<p>ترجع النتائج للـ Agent</pre></div></p>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">3️⃣ <strong>الدوال البرمجية (Software Functions)</strong> ⚙️</h2>
+            <div class="card-content arabic-text">
+                <p><strong>الدالة ممكن تعمل:</strong></p>
+<ul>
+<li>🧮 <strong>حسابات بسيطة</strong> (Simple computation)</li>
+<li>🔗 <strong>تكاملات معقدة</strong> (Complex integrations)</li>
+</ul>
+<p><strong>الآلية:</strong></p>
+<ul>
+<li><strong>تاخد مدخلات</strong> (Takes inputs)</li>
+<li><strong>ترجع مخرجات</strong> للـ Agent (Returns outputs)</li>
+</ul>
+<p><strong>أمثلة:</strong></p>
+
+                <div class="process-step">
+                    <h4>مثال 1: حساب بسيط</h4>
+                    <div class="code-card"><pre>def calculate_discount(price, discount_percent):
+<p>"""حساب السعر بعد الخصم"""</p>
+<p>return price * (1 - discount_percent/100)</pre></div></p>
+                </div>
+
+                <div class="process-step">
+                    <h4>مثال 2: تكامل معقد</h4>
+                    <div class="code-card"><pre>def process_payment(order_id, amount, payment_method):
+<p>"""معالجة الدفع عبر بوابة دفع خارجية"""</p>
+<p># التكامل مع Stripe أو PayPal</p>
+<p>payment_gateway.charge(amount, payment_method)</p>
+<p>update_order_status(order_id, "paid")</p>
+<p>return {"status": "success", "transaction_id": "TXN123"}</pre></div></p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">4️⃣ <strong>الخدمات الصغيرة (Microservices)</strong> 🔧</h2>
+            <div class="card-content arabic-text">
+                <p><strong>الاستخدام:</strong></p>
+<ul>
+<li>Microservices اللي جزء من <strong>سير عمل تطبيق المؤسسة</strong></li>
+<li>بتتكامل مع الـ Agent كأدوات</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="code-card"><pre>┌─────────────────────────────────────┐
+<p>│   تطبيق التجارة الإلكترونية        │</p>
+<p>│                                     │</p>
+<p>│  ┌──────────┐  ┌──────────┐        │</p>
+<p>│  │ خدمة     │  │ خدمة     │        │</p>
+<p>│  │ الطلبات   │  │ المخزون  │        │</p>
+<p>│  └──────────┘  └──────────┘        │</p>
+<p>│       ↑              ↑              │</p>
+<p>│       └──────┬───────┘              │</p>
+<p>│              │                      │</p>
+<p>│         🤖 AI Agent                 │</p>
+<p>└─────────────────────────────────────┘</pre></div></p>
+<p><strong>سيناريو:</strong></p>
+<div class="code-card"><pre>الهدف: "اطلب 5 وحدات من المنتج A"
+<p>↓</p>
+<p>1. Agent يستدعي خدمة المخزون:</p>
+<p>"هل متوفر 5 وحدات؟"</p>
+<p>↓</p>
+<p>2. Agent يستدعي خدمة الطلبات:</p>
+<p>"أنشئ طلب جديد"</pre></div></p>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">5️⃣ <strong>نماذج الذكاء الاصطناعي التوليدي (GenAI Models)</strong> 🎨</h2>
+            <div class="card-content arabic-text">
+                <p><strong>متى تُستخدم؟</strong></p>
+<ul>
+<li>لما توفر <strong>وظيفة محددة</strong> زي:</li>
+</ul>
+<table>
+<tr><th>الوظيفة</th><th>المثال</th></tr>
+<tr><td>🖼️ <strong>توليد صور</strong></td><td>DALL-E, Midjourney</td></tr>
+<tr><td>🎥 <strong>تحليل فيديو</strong></td><td>تحليل محتوى الفيديو</td></tr>
+<tr><td>🌐 <strong>الترجمة</strong></td><td>ترجمة بين اللغات</td></tr>
+<tr><td>🎵 <strong>توليد موسيقى</strong></td><td>توليد مقطوعات موسيقية</td></tr>
+</table>
+<p><strong>مثال عملي:</strong></p>
+<div class="code-card"><pre>الهدف: "اعملي صورة لقطة برتقالية"
+<p>↓</p>
+<p>Agent يستدعي أداة DALL-E:</p>
+<p>Input: "An orange cat sitting on a couch"</p>
+<p>↓</p>
+<p>DALL-E تولد الصورة</p>
+<p>↓</p>
+<p>Agent يرجع الصورة للمستخدم</pre></div></p>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">6️⃣ <strong>منصات السحابة (Cloud Platforms)</strong> ☁️</h2>
+            <div class="card-content arabic-text">
+                <p><strong>أمثلة:</strong></p>
+<ul>
+<li><strong>Salesforce</strong> - إدارة علاقات العملاء (CRM)</li>
+<li><strong>Microsoft SharePoint</strong> - إدارة المستندات والتعاون</li>
+<li><strong>Google Workspace</strong> - البريد والمستندات</li>
+<li><strong>AWS Services</strong> - خدمات الحوسبة السحابية</li>
+</ul>
+<p><strong>مثال: التكامل مع Salesforce</strong></p>
+<div class="code-card"><pre>الهدف: "أضف العميل الجديد للـ CRM"
+<p>↓</p>
+<p>Agent يستخدم أداة Salesforce API:</p>
+<ul>
+<li>ينشئ سجل عميل جديد</li>
+<li>يضيف معلومات الاتصال</li>
+<li>يربطه بالفرصة البيعية</li>
+</ul>
+<p>↓</p>
+<p>يرجع تأكيد بنجاح العملية</pre></div></p>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">7️⃣ <strong>وكلاء ذكاء اصطناعي آخرون (Other AI Agents)</strong> 🤖</h2>
+            <div class="card-content arabic-text">
+                <p><strong>الفكرة:</strong></p>
+<ul>
+<li>الـ Agent الرئيسي يمكنه <strong>استخدام Agent آخر</strong> لأداء وظائف محددة</li>
+<li>يعني <strong>Agent يشغّل Agent</strong>! 🤯</li>
+</ul>
+<p><strong>السيناريو:</strong></p>
+<div class="code-card"><pre>┌──────────────────────────────────┐
+<p>│     Main Agent (الوكيل الرئيسي)  │</p>
+<p>│                                  │</p>
+<p>│  "حلل البيانات واعمل تقرير"      │</p>
+<p>└────────┬─────────────────────────┘</p>
+<p>│</p>
+<p>├─→ 🤖 Data Analysis Agent</p>
+<p>│   (متخصص في تحليل البيانات)</p>
+<p>│</p>
+<p>└─→ 🤖 Report Generation Agent</p>
+<p>(متخصص في توليد التقارير)</pre></div></p>
+<p><strong>الفوائد:</strong></p>
+<ul>
+<li>✅ <strong>التخصص</strong>: كل Agent يعمل اللي هو شاطر فيه</li>
+<li>✅ <strong>إعادة الاستخدام</strong>: استخدام Agents موجودة فعلاً</li>
+<li>✅ <strong>القابلية للتوسع</strong>: سهولة إضافة Agents جديدة</li>
+</ul>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">📋 ملفات تعريف الأدوات (Tool Profiles)</h2>
+            <div class="card-content arabic-text">
+                
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🌟 ليه مهمة جداً؟</h2>
+            <div class="card-content arabic-text">
+                <p>> <strong>ملفات تعريف الأدوات تلعب دور رئيسي في ضمان الاستخدام الفعال للأدوات بواسطة الـ Planner</strong></p>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🔑 ماذا يحتوي ملف تعريف الأداة؟</h2>
+            <div class="card-content arabic-text">
+                <p>في نظام AI Agent، الـ Orchestrator لازم <strong>يُزوَّد بملف تعريف</strong> لكل أداة يحتوي على:</p>
+<table>
+<tr><th><strong>المعلومة</strong></th><th><strong>الوصف</strong></th></tr>
+<tr><td>🎯 <strong>الغرض</strong></td><td>Purpose - إيه الغرض من الأداة؟</td></tr>
+<tr><td>⚡ <strong>القدرات</strong></td><td>Capabilities - إيه اللي تقدر تعمله؟</td></tr>
+<tr><td>📥 <strong>المدخلات</strong></td><td>Inputs - إيه المدخلات المطلوبة؟</td></tr>
+<tr><td>📝 <strong>تنسيق المدخلات</strong></td><td>Input formats - إزاي تكون المدخلات؟</td></tr>
+<tr><td>⚠️ <strong>القيود</strong></td><td>Limits - إيه الحدود والقيود؟</td></tr>
+<tr><td>📤 <strong>المخرجات</strong></td><td>Outputs - إيه اللي بترجعه؟</td></tr>
+<tr><td>🚨 <strong>الأخطاء/الاستثناءات</strong></td><td>Errors/Exceptions - الأخطاء المحتملة</td></tr>
+</table>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">📝 مثال على ملف تعريف أداة</h2>
+            <div class="card-content arabic-text">
+                
+
+                <div class="process-step">
+                    <h4>أداة: <code>GetOrderDetails</code></h4>
+                    <div class="code-card"><pre>الغرض (Purpose):
+<p>استرجاع تفاصيل طلب محدد من قاعدة البيانات</p>
+<p>القدرات (Capabilities):</p>
+<ul>
+<li>جلب معلومات الطلب الأساسية</li>
+<li>جلب قائمة المنتجات في الطلب</li>
+<li>جلب حالة الشحن</li>
+<li>جلب معلومات الدفع</li>
+</ul>
+<p>المدخلات (Inputs):</p>
+<ul>
+<li>order_id: رقم الطلب (مطلوب)</li>
+</ul>
+<p>النوع: integer</p>
+<p>مثال: 1001</p>
+<p>تنسيق المدخلات (Input Format):</p>
+<p>JSON: {"order_id": 1001}</p>
+<p>القيود (Limits):</p>
+<ul>
+<li>order_id يجب أن يكون رقم موجب</li>
+<li>الحد الأقصى للطلبات: 1000 طلب في الدقيقة</li>
+</ul>
+<p>المخرجات (Outputs):</p>
+<p>JSON object يحتوي على:</p>
+<ul>
+<li>order_id</li>
+<li>customer_name</li>
+<li>order_date</li>
+<li>items[]</li>
+<li>total_amount</li>
+<li>status</li>
+</ul>
+<p>الأخطاء/الاستثناءات (Errors):</p>
+<ul>
+<li>ORDER_NOT_FOUND: الطلب غير موجود</li>
+<li>INVALID_ORDER_ID: رقم الطلب غير صالح</li>
+<li>DATABASE_ERROR: خطأ في الاتصال بقاعدة البيانات</pre></div></li>
+</ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🧠 كيف يُستخدم ملف التعريف؟</h2>
+            <div class="card-content arabic-text">
+                <p><strong>الآلية:</strong></p>
+<p>1. المعلومات تُقدَّم عادة كـ<strong>نص حر</strong> (Free format text)</p>
+<p>2. يتم تقديمها للـ <strong>LLM</strong> لفهم قدرات الأداة</p>
+<p>3. الـ LLM يستخدم هذه المعلومات لـ:</p>
+<ul>
+<li>✅ <strong>اختيار</strong> الأداة المناسبة</li>
+<li>✅ <strong>تحديد</strong> المدخلات الصحيحة</li>
+<li>✅ <strong>معالجة</strong> المخرجات والأخطاء</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="code-card"><pre>Planner: "أحتاج جلب تفاصيل الطلب 1001"
+<p>↓</p>
+<p>LLM يقرأ ملف تعريف GetOrderDetails:</p>
+<p>"هذه الأداة تسترجع تفاصيل الطلب</p>
+<p>المدخل المطلوب: order_id</p>
+<p>التنسيق: JSON"</p>
+<p>↓</p>
+<p>LLM يقرر: "استخدم GetOrderDetails"</p>
+<p>↓</p>
+<p>Executor ينفذ: GetOrderDetails({"order_id": 1001})</pre></div></p>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">💾 الذاكرة طويلة المدى للأدوات</h2>
+            <div class="card-content arabic-text">
+                <p><strong>الـ Orchestrator ممكن يكون عنده ذاكرة طويلة المدى لـ:</strong></p>
+<table>
+<tr><th><strong>المتتبَع</strong></th><th><strong>الفائدة</strong></th></tr>
+<tr><td>📊 <strong>تتبع الاستخدام</strong></td><td>كم مرة استُخدمت الأداة؟</td></tr>
+<tr><td>✅ <strong>فعالية الاستخدام</strong></td><td>هل الأداة بتدي نتائج جيدة؟</td></tr>
+<tr><td>⏱️ <strong>وقت الاستجابة</strong></td><td>قد إيه الأداة سريعة؟</td></tr>
+<tr><td>🚨 <strong>معدل الأخطاء</strong></td><td>كم مرة فشلت الأداة؟</td></tr>
+</table>
+<p><strong>الاستفادة:</strong></p>
+<ul>
+<li>🎯 <strong>تحسين اختيار الأدوات</strong> في المستقبل</li>
+<li>🔧 <strong>تحديد الأدوات اللي تحتاج صيانة</strong></li>
+<li>📈 <strong>تحسين الأداء العام</strong> للنظام</li>
+</ul>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">📊 جدول مقارنة أنواع الأدوات</h2>
+            <div class="card-content arabic-text">
+                <table>
+<tr><th><strong>النوع</strong></th><th><strong>الاستخدام</strong></th><th><strong>مثال</strong></th><th><strong>التعقيد</strong></th></tr>
+<tr><td>📚 <strong>Knowledge Base</strong></td><td>استرجاع معلومات</td><td>RAG</td><td>متوسط</td></tr>
+<tr><td>🗄️ <strong>Database</strong></td><td>CRUD operations</td><td>SQL queries</td><td>بسيط-متوسط</td></tr>
+<tr><td>⚙️ <strong>Function</strong></td><td>حسابات/تكاملات</td><td>Python function</td><td>بسيط-معقد</td></tr>
+<tr><td>🔧 <strong>Microservice</strong></td><td>عمليات المؤسسة</td><td>Order service</td><td>متوسط-معقد</td></tr>
+<tr><td>🎨 <strong>GenAI Model</strong></td><td>توليد محتوى</td><td>DALL-E</td><td>متوسط</td></tr>
+<tr><td>☁️ <strong>Cloud Platform</strong></td><td>خدمات خارجية</td><td>Salesforce API</td><td>معقد</td></tr>
+<tr><td>🤖 <strong>Other Agent</strong></td><td>مهام متخصصة</td><td>Analysis Agent</td><td>معقد</td></tr>
+</table>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🎯 الخلاصة</h2>
+            <div class="card-content arabic-text">
+                
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">الأدوات = القوة الحقيقية للـ Agent! 💪</h2>
+            <div class="card-content arabic-text">
+                <p><strong>النقاط الأساسية:</strong></p>
+<p>1. <strong>تنوع الأدوات:</strong></p>
+<ul>
+<li>أي خدمة = أداة محتملة</li>
+<li>من البسيط للمعقد</li>
+</ul>
+<p>2. <strong>ملفات التعريف:</strong></p>
+<ul>
+<li>ضرورية لفهم الـ LLM</li>
+<li>تحتوي على كل التفاصيل المهمة</li>
+</ul>
+<p>3. <strong>الذاكرة:</strong></p>
+<ul>
+<li>تتبع الاستخدام</li>
+<li>تحسين مستمر</li>
+</ul>
+<p>4. <strong>المرونة:</strong></p>
+<ul>
+<li>Agents يقدروا يستخدموا Agents تانية</li>
+<li>سهولة إضافة أدوات جديدة</li>
+</ul>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">المعادلة الناجحة:</h2>
+            <div class="card-content arabic-text">
+                <div class="code-card"><pre>أدوات متنوعة + ملفات تعريف واضحة + ذاكرة فعالة
+<p>=</p>
+<p>Agent قوي وقادر على تحقيق أهداف معقدة! 🚀</pre></div></p>
+
+            </div>
+        </div>
 
     </div>
 </body>

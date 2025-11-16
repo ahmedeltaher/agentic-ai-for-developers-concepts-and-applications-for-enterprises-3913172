@@ -5,292 +5,573 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إعداد الـ Indexes للـ Router</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
-            line-height: 1.8;
             direction: rtl;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
         .card {
             background: white;
             border-radius: 15px;
             padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: fadeInUp 0.6s;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .card:hover { transform: translateY(-5px); }
-        h1, h2, h3 { color: #667eea; margin: 20px 0 15px 0; }
-        h1 { text-align: center; color: white; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        p { margin: 15px 0; line-height: 1.8; }
-        ul, ol { margin: 15px 0; padding-right: 30px; }
-        li { margin: 10px 0; padding: 10px; background: #f8f9ff; border-radius: 5px; }
-        code { background: #f0f4ff; padding: 2px 8px; border-radius: 4px; font-family: 'Courier New', monospace; }
-        pre { background: #f0f4ff; padding: 15px; border-radius: 8px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        th { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; text-align: center; }
-        td { padding: 15px; border: 1px solid #ddd; }
-        tr:nth-child(even) { background: #f8f9ff; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { .card { padding: 20px; } h1 { font-size: 1.8em; } }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #e67e22;
+            padding-bottom: 10px;
+        }
+
+        .card-content {
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .code-card {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .code-card pre {
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ff9f43 0%, #feca57 100%);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .process-step {
+            background: #f8f9fa;
+            border-left: 5px solid #e67e22;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .important-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .important-note::before {
+            content: "💡 ";
+            font-size: 1.5rem;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-item {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #27ae60;
+        }
+
+        .arabic-text {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .routing-demo {
+            background: linear-gradient(45deg, #e67e22, #d35400);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .query-analysis {
+            background: #00b894;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .query-box {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #fdcb6e;
+        }
+
+        .engine-selection {
+            background: #6c5ce7;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+        }
+
+        td {
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-right: 30px;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        code {
+            background: #f0f4ff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        # إعداد الـ Indexes للـ Router - شرح بالعامية المصرية
+        <div class="header">
+            <h1>🚀 إعداد الـ Indexes للـ Router - شرح بالعامية المصرية</h1>
+            <p>شرح مفصل بالعامية المصرية</p>
+        </div>
 
+        <div class="card">
+            <h2 class="card-title">بيئة العمل: GitHub Codespaces</h2>
+            <div class="card-content arabic-text">
+                
 
+            </div>
+        </div>
 
-## بيئة العمل: GitHub Codespaces
+        <div class="card">
+            <h2 class="card-title">إزاي نبدأ؟</h2>
+            <div class="card-content arabic-text">
+                <p><strong>الطريقة الأولى:</strong></p>
+<ul>
+<li>اضغط على <strong>اللينك تحت الفيديو</strong></li>
+</ul>
+<p><strong>الطريقة الثانية:</strong></p>
+<p>1. روح على <strong>الـ Course Repo</strong></p>
+<p>2. اضغط على <strong>Code</strong></p>
+<p>3. اختار <strong>Codespaces</strong></p>
+<p>> ⚠️ <strong>ملحوظة:</strong> أول مرة هتفتح Codespace ممكن <strong>ياخد وقت شوية</strong></p>
 
-### إزاي نبدأ؟
+            </div>
+        </div>
 
-**الطريقة الأولى:**
-- اضغط على **اللينك تحت الفيديو**
+        <div class="card">
+            <h2 class="card-title">فتح الـ Notebook</h2>
+            <div class="card-content arabic-text">
+                <div class="code-card"><pre>📁 Course Files
+<p>⬇️</p>
+<p>📓 code_03_XX A basic Agent-Router application</p>
+<p>⬇️</p>
+<p>📝 03.03 Setting up Indexes</pre></div></p>
 
-**الطريقة الثانية:**
-1. روح على **الـ Course Repo**
-2. اضغط على **Code**
-3. اختار **Codespaces**
+            </div>
+        </div>
 
-> ⚠️ **ملحوظة:** أول مرة هتفتح Codespace ممكن **ياخد وقت شوية**
+        <div class="card">
+            <h2 class="card-title">الخطوة الأولى: تثبيت المتطلبات (Dependencies)</h2>
+            <div class="card-content arabic-text">
+                
 
-### فتح الـ Notebook
-```
-📁 Course Files
-    ⬇️
-📓 code_03_XX A basic Agent-Router application
-    ⬇️
-📝 03.03 Setting up Indexes
-```
+            </div>
+        </div>
 
----
+        <div class="card">
+            <h2 class="card-title">الـ Packages المطلوبة:</h2>
+            <div class="card-content arabic-text">
+                
 
-## الخطوة الأولى: تثبيت المتطلبات (Dependencies)
+                <div class="process-step">
+                    <h4>1. llama-index</h4>
+                    <ul>
+<li>ده <strong>الـ Framework</strong> الرئيسي اللي هنشتغل بيه</li>
+</ul>
+                </div>
 
-### الـ Packages المطلوبة:
+                <div class="process-step">
+                    <h4>2. Azure OpenAI</h4>
+                    <ul>
+<li>هنستخدمه كـ <strong>LLM</strong> (نموذج اللغة الكبير)</li>
+</ul>
+                </div>
 
-#### 1. llama-index
-- ده **الـ Framework** الرئيسي اللي هنشتغل بيه
+            </div>
+        </div>
 
-#### 2. Azure OpenAI
-- هنستخدمه كـ **LLM** (نموذج اللغة الكبير)
+        <div class="card">
+            <h2 class="card-title">تشغيل التثبيت:</h2>
+            <div class="card-content arabic-text">
+                <div class="code-card"><pre># تثبيت الحزم
+<ul>
+<li>اختار Python Environment</li>
+<li>اختار Python 3.10</li>
+<li>شغل الكود</pre></div></li>
+</ul>
 
-### تشغيل التثبيت:
-```python
-# تثبيت الحزم
-- اختار Python Environment
-- اختار Python 3.10
-- شغل الكود
-```
+            </div>
+        </div>
 
----
+        <div class="card">
+            <h2 class="card-title">الخطوة الثانية: إعداد الاتصال بالـ LLM</h2>
+            <div class="card-content arabic-text">
+                
 
-## الخطوة الثانية: إعداد الاتصال بالـ LLM
+            </div>
+        </div>
 
-### المكونات المطلوبة:
+        <div class="card">
+            <h2 class="card-title">المكونات المطلوبة:</h2>
+            <div class="card-content arabic-text">
+                
 
-#### 1. Asyncio
-```
-🔌 Asyncio
-    ⬇️
-مطلوب للعمل مع llama-index
-```
+                <div class="process-step">
+                    <h4>1. Asyncio</h4>
+                    <div class="code-card"><pre>🔌 Asyncio
+<p>⬇️</p>
+<p>مطلوب للعمل مع llama-index</pre></div></p>
+                </div>
 
-#### 2. إعدادات Azure OpenAI
+                <div class="process-step">
+                    <h4>2. إعدادات Azure OpenAI</h4>
+                    <p><strong>المعلومات المطلوبة:</strong></p>
+<ul>
+<li><code>api_key</code> - <strong>مفتاح الـ API</strong></li>
+<li><code>azure_endpoint</code> - <strong>عنوان الخدمة</strong></li>
+<li><code>api_version</code> - <strong>إصدار الـ API</strong></li>
+</ul>
+<p>> ⚠️ <strong>تحذير مهم:</strong></p>
+<p>> لازم <strong>تستبدل</strong> الـ api_key والـ endpoint <strong>بالقيم بتاعتك</strong> من حسابك الخاص، وإلا الكود <strong>مش هيشتغل</strong>!</p>
+                </div>
 
-**المعلومات المطلوبة:**
-- `api_key` - **مفتاح الـ API**
-- `azure_endpoint` - **عنوان الخدمة**
-- `api_version` - **إصدار الـ API**
+                <div class="process-step">
+                    <h4>3. استخدام LLM مختلف (اختياري)</h4>
+                    <div class="code-card"><pre>إذا كنت عايز تستخدم LLM تاني:
+<p>⬇️</p>
+<p>غير إعدادات الـ LLM والـ Embedding</p>
+<p>⬇️</p>
+<p>راجع توثيق llama-index</pre></div></p>
+                </div>
 
-> ⚠️ **تحذير مهم:**
-> لازم **تستبدل** الـ api_key والـ endpoint **بالقيم بتاعتك** من حسابك الخاص، وإلا الكود **مش هيشتغل**!
+            </div>
+        </div>
 
-#### 3. استخدام LLM مختلف (اختياري)
-```
-إذا كنت عايز تستخدم LLM تاني:
-    ⬇️
-غير إعدادات الـ LLM والـ Embedding
-    ⬇️
-راجع توثيق llama-index
-```
+        <div class="card">
+            <h2 class="card-title">الخطوة الثالثة: إنشاء Objects الـ LLM</h2>
+            <div class="card-content arabic-text">
+                
 
----
+            </div>
+        </div>
 
-## الخطوة الثالثة: إنشاء Objects الـ LLM
+        <div class="card">
+            <h2 class="card-title">1. إنشاء AzureOpenAI LLM Object</h2>
+            <div class="card-content arabic-text">
+                <div class="code-card"><pre># هنستخدم موديل GPT-3.5 Turbo
+<p>LLM Object ⬅️ GPT-3.5 Turbo</pre></div></p>
+<p><strong>الموديل المستخدم:</strong></p>
+<ul>
+<li><strong>GPT-3.5 Turbo</strong> - سريع وفعال للتمرين ده</li>
+</ul>
 
-### 1. إنشاء AzureOpenAI LLM Object
+            </div>
+        </div>
 
-```python
-# هنستخدم موديل GPT-3.5 Turbo
-LLM Object ⬅️ GPT-3.5 Turbo
-```
+        <div class="card">
+            <h2 class="card-title">2. إنشاء AzureOpenAIEmbedding Object</h2>
+            <div class="card-content arabic-text">
+                <div class="code-card"><pre># ده المسؤول عن تحويل النصوص لأرقام
+<p>Embedding Object ⬅️ Azure OpenAI</pre></div></p>
 
-**الموديل المستخدم:**
-- **GPT-3.5 Turbo** - سريع وفعال للتمرين ده
+            </div>
+        </div>
 
-### 2. إنشاء AzureOpenAIEmbedding Object
+        <div class="card">
+            <h2 class="card-title">تشغيل الكود:</h2>
+            <div class="card-content arabic-text">
+                <div class="code-card"><pre>▶️ Run الكود
+<p>⬇️</p>
+<p>✅ الـ Notebook Status بيوضح إنه خلص</pre></div></p>
 
-```python
-# ده المسؤول عن تحويل النصوص لأرقام
-Embedding Object ⬅️ Azure OpenAI
-```
+            </div>
+        </div>
 
-### تشغيل الكود:
-```
-▶️ Run الكود
-    ⬇️
-✅ الـ Notebook Status بيوضح إنه خلص
-```
+        <div class="card">
+            <h2 class="card-title">الخطوة الرابعة: إنشاء Indexes للمستندات</h2>
+            <div class="card-content arabic-text">
+                
 
----
+            </div>
+        </div>
 
-## الخطوة الرابعة: إنشاء Indexes للمستندات
+        <div class="card">
+            <h2 class="card-title">موقع المستندات:</h2>
+            <div class="card-content arabic-text">
+                <div class="code-card"><pre>📁 نفس مجلد التمرين
+<p>├── 📄 AeroFlow.pdf</p>
+<p>└── 📄 EcoSprint.pdf</pre></div></p>
 
-### موقع المستندات:
-```
-📁 نفس مجلد التمرين
-    ├── 📄 AeroFlow.pdf
-    └── 📄 EcoSprint.pdf
-```
+            </div>
+        </div>
 
----
+        <div class="card">
+            <h2 class="card-title">معالجة مستند AeroFlow</h2>
+            <div class="card-content arabic-text">
+                
 
-### معالجة مستند AeroFlow
+                <div class="process-step">
+                    <h4>الخطوات التفصيلية:</h4>
+                    <p><strong>1. تحميل الملف</strong></p>
+<div class="code-card"><pre>simple_directory_reader() ⬅️ قراءة الملف</pre></div>
+<ul>
+<li>نستخدم <strong>SimpleDirectoryReader</strong> عشان نحمل الملف</li>
+</ul>
+<p><strong>2. تقسيم المستند</strong></p>
+<div class="code-card"><pre>Document ➡️ Chunks (قطع صغيرة)</pre></div>
+<ul>
+<li>نقسم المستند لـ <strong>قطع صغيرة</strong> (Chunks)</li>
+</ul>
+<p><strong>3. إنشاء Vector Store</strong></p>
+<div class="code-card"><pre>Chunks ➡️ Embeddings ➡️ Vector Store (في الذاكرة)</pre></div>
+<ul>
+<li>نحول الـ Chunks لـ <strong>Embeddings</strong></li>
+<li>نحفظهم في <strong>Vector Store</strong> في الذاكرة</li>
+</ul>
+<p><strong>4. إنشاء Query Engine</strong></p>
+<div class="code-card"><pre>as_query_engine() ⬅️ إنشاء محرك البحث</pre></div>
+<ul>
+<li>نستخدم method اسمه <strong>as_query_engine</strong></li>
+<li>يبقى عندنا محرك بحث جاهز</li>
+</ul>
+                </div>
 
-#### الخطوات التفصيلية:
+            </div>
+        </div>
 
-**1. تحميل الملف**
-```python
-simple_directory_reader() ⬅️ قراءة الملف
-```
-- نستخدم **SimpleDirectoryReader** عشان نحمل الملف
+        <div class="card">
+            <h2 class="card-title">معالجة مستند EcoSprint</h2>
+            <div class="card-content arabic-text">
+                
 
-**2. تقسيم المستند**
-```python
-Document ➡️ Chunks (قطع صغيرة)
-```
-- نقسم المستند لـ **قطع صغيرة** (Chunks)
+                <div class="process-step">
+                    <h4>نفس الخطوات بالضبط:</h4>
+                    <div class="code-card"><pre>📄 EcoSprint Document
+<p>⬇️</p>
+<p>📚 Load باستخدام SimpleDirectoryReader</p>
+<p>⬇️</p>
+<p>✂️ Split لـ Chunks</p>
+<p>⬇️</p>
+<p>🔢 Create Embeddings</p>
+<p>⬇️</p>
+<p>💾 Store في Vector Store</p>
+<p>⬇️</p>
+<p>🔍 Create Query Engine</p>
+<p>⬇️</p>
+<p>✅ جاهز للاستخدام</pre></div></p>
+                </div>
 
-**3. إنشاء Vector Store**
-```python
-Chunks ➡️ Embeddings ➡️ Vector Store (في الذاكرة)
-```
-- نحول الـ Chunks لـ **Embeddings**
-- نحفظهم في **Vector Store** في الذاكرة
+            </div>
+        </div>
 
-**4. إنشاء Query Engine**
-```python
-as_query_engine() ⬅️ إنشاء محرك البحث
-```
-- نستخدم method اسمه **as_query_engine**
-- يبقى عندنا محرك بحث جاهز
+        <div class="card">
+            <h2 class="card-title">تشغيل الكود:</h2>
+            <div class="card-content arabic-text">
+                <div class="code-card"><pre>▶️ Run الكود
+<p>⬇️</p>
+<p>✅ خلص التنفيذ</pre></div></p>
 
----
+            </div>
+        </div>
 
-### معالجة مستند EcoSprint
+        <div class="card">
+            <h2 class="card-title">ملخص ما تم إنجازه</h2>
+            <div class="card-content arabic-text">
+                
 
-#### نفس الخطوات بالضبط:
+            </div>
+        </div>
 
-```
-📄 EcoSprint Document
-    ⬇️
-📚 Load باستخدام SimpleDirectoryReader
-    ⬇️
-✂️ Split لـ Chunks
-    ⬇️
-🔢 Create Embeddings
-    ⬇️
-💾 Store في Vector Store
-    ⬇️
-🔍 Create Query Engine
-    ⬇️
-✅ جاهز للاستخدام
-```
+        <div class="card">
+            <h2 class="card-title">البنية التحتية الجاهزة:</h2>
+            <div class="card-content arabic-text">
+                <table>
+<tr><th>المكون</th><th>الحالة</th><th>الوصف</th></tr>
+<tr><td><strong>Codespace</strong></td><td>✅ جاهز</td><td>بيئة العمل</td></tr>
+<tr><td><strong>Dependencies</strong></td><td>✅ مثبتة</td><td>llama-index + Azure OpenAI</td></tr>
+<tr><td><strong>LLM Connection</strong></td><td>✅ متصل</td><td>GPT-3.5 Turbo</td></tr>
+<tr><td><strong>Embedding Model</strong></td><td>✅ جاهز</td><td>Azure OpenAI Embeddings</td></tr>
+<tr><td><strong>AeroFlow Index</strong></td><td>✅ تم إنشاؤه</td><td>محرك بحث جاهز</td></tr>
+<tr><td><strong>EcoSprint Index</strong></td><td>✅ تم إنشاؤه</td><td>محرك بحث جاهز</td></tr>
+</table>
 
-### تشغيل الكود:
-```
-▶️ Run الكود
-    ⬇️
-✅ خلص التنفيذ
-```
+            </div>
+        </div>
 
----
+        <div class="card">
+            <h2 class="card-title">الرسم التوضيحي الكامل</h2>
+            <div class="card-content arabic-text">
+                <div class="code-card"><pre>🌐 GitHub Codespaces
+<p>⬇️</p>
+<p>📦 تثبيت Packages</p>
+<p>⬇️</p>
+<p>🔌 الاتصال بـ Azure OpenAI</p>
+<p>⬇️</p>
+<p>🤖 إنشاء LLM Object (GPT-3.5)</p>
+<p>⬇️</p>
+<p>🔢 إنشاء Embedding Object</p>
+<p>⬇️</p>
+<p>┌────┴────┐</p>
+<p>⬇️         ⬇️</p>
+<p>📄 AeroFlow   📄 EcoSprint</p>
+<p>⬇️         ⬇️</p>
+<p>✂️ Chunks     ✂️ Chunks</p>
+<p>⬇️         ⬇️</p>
+<p>🔢 Embeddings 🔢 Embeddings</p>
+<p>⬇️         ⬇️</p>
+<p>💾 Vector Store 💾 Vector Store</p>
+<p>⬇️         ⬇️</p>
+<p>🔍 Query Engine 🔍 Query Engine</p>
+<p>⬇️         ⬇️</p>
+<p>└────┬────┘</p>
+<p>⬇️</p>
+<p>✅ جاهزين للخطوة الجاية!</pre></div></p>
 
-## ملخص ما تم إنجازه
+            </div>
+        </div>
 
-### البنية التحتية الجاهزة:
+        <div class="card">
+            <h2 class="card-title">نصائح مهمة</h2>
+            <div class="card-content arabic-text">
+                
 
-| المكون | الحالة | الوصف |
-|--------|--------|-------|
-| **Codespace** | ✅ جاهز | بيئة العمل |
-| **Dependencies** | ✅ مثبتة | llama-index + Azure OpenAI |
-| **LLM Connection** | ✅ متصل | GPT-3.5 Turbo |
-| **Embedding Model** | ✅ جاهز | Azure OpenAI Embeddings |
-| **AeroFlow Index** | ✅ تم إنشاؤه | محرك بحث جاهز |
-| **EcoSprint Index** | ✅ تم إنشاؤه | محرك بحث جاهز |
+            </div>
+        </div>
 
----
+        <div class="card">
+            <h2 class="card-title">⚙️ الإعدادات:</h2>
+            <div class="card-content arabic-text">
+                <p>1. <strong>استخدم Python 3.10</strong> - ده الإصدار الموصى بيه</p>
+<p>2. <strong>ما تنساش api_key</strong> - حط المفتاح بتاعك</p>
+<p>3. <strong>اتأكد من الـ endpoint</strong> - لازم يكون صحيح</p>
 
-## الرسم التوضيحي الكامل
+            </div>
+        </div>
 
-```
-🌐 GitHub Codespaces
-         ⬇️
-📦 تثبيت Packages
-         ⬇️
-🔌 الاتصال بـ Azure OpenAI
-         ⬇️
-🤖 إنشاء LLM Object (GPT-3.5)
-         ⬇️
-🔢 إنشاء Embedding Object
-         ⬇️
-    ┌────┴────┐
-    ⬇️         ⬇️
-📄 AeroFlow   📄 EcoSprint
-    ⬇️         ⬇️
-✂️ Chunks     ✂️ Chunks
-    ⬇️         ⬇️
-🔢 Embeddings 🔢 Embeddings
-    ⬇️         ⬇️
-💾 Vector Store 💾 Vector Store
-    ⬇️         ⬇️
-🔍 Query Engine 🔍 Query Engine
-    ⬇️         ⬇️
-    └────┬────┘
-         ⬇️
-    ✅ جاهزين للخطوة الجاية!
-```
+        <div class="card">
+            <h2 class="card-title">🐛 لو حصلت مشكلة:</h2>
+            <div class="card-content arabic-text">
+                <ul>
+<li><strong>تحقق من الـ API credentials</strong></li>
+<li><strong>راجع توثيق llama-index</strong> لو عايز تستخدم LLM تاني</li>
+<li><strong>تأكد إن الـ Packages اتثبتت صح</strong></li>
+</ul>
 
----
+            </div>
+        </div>
 
-## نصائح مهمة
+        <div class="card">
+            <h2 class="card-title">الخطوة الجاية</h2>
+            <div class="card-content arabic-text">
+                <p>في الفيديو الجاي هنعمل:</p>
+<ul>
+<li><strong>إعداد الـ Router</strong> نفسه</li>
+<li><strong>ربط الـ Query Engines</strong> بالـ Router</li>
+<li><strong>تجربة النظام</strong> بأسئلة حقيقية</li>
+</ul>
 
-### ⚙️ الإعدادات:
-1. **استخدم Python 3.10** - ده الإصدار الموصى بيه
-2. **ما تنساش api_key** - حط المفتاح بتاعك
-3. **اتأكد من الـ endpoint** - لازم يكون صحيح
+            </div>
+        </div>
 
-### 🐛 لو حصلت مشكلة:
-- **تحقق من الـ API credentials**
-- **راجع توثيق llama-index** لو عايز تستخدم LLM تاني
-- **تأكد إن الـ Packages اتثبتت صح**
+        <div class="card">
+            <h2 class="card-title">استعد! 🚀 الجزء المثير جاي!</h2>
+            <div class="card-content arabic-text">
+                
 
----
-
-## الخطوة الجاية
-
-في الفيديو الجاي هنعمل:
-- **إعداد الـ Router** نفسه
-- **ربط الـ Query Engines** بالـ Router
-- **تجربة النظام** بأسئلة حقيقية
-
-### استعد! 🚀 الجزء المثير جاي!
-
+            </div>
+        </div>
 
     </div>
 </body>

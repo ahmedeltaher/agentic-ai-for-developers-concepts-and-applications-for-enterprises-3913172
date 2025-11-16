@@ -5,237 +5,482 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تصميم Router AI Agent</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
-            line-height: 1.8;
             direction: rtl;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
         .card {
             background: white;
             border-radius: 15px;
             padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: fadeInUp 0.6s;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .card:hover { transform: translateY(-5px); }
-        h1, h2, h3 { color: #667eea; margin: 20px 0 15px 0; }
-        h1 { text-align: center; color: white; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        p { margin: 15px 0; line-height: 1.8; }
-        ul, ol { margin: 15px 0; padding-right: 30px; }
-        li { margin: 10px 0; padding: 10px; background: #f8f9ff; border-radius: 5px; }
-        code { background: #f0f4ff; padding: 2px 8px; border-radius: 4px; font-family: 'Courier New', monospace; }
-        pre { background: #f0f4ff; padding: 15px; border-radius: 8px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        th { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; text-align: center; }
-        td { padding: 15px; border: 1px solid #ddd; }
-        tr:nth-child(even) { background: #f8f9ff; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { .card { padding: 20px; } h1 { font-size: 1.8em; } }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #e67e22;
+            padding-bottom: 10px;
+        }
+
+        .card-content {
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .code-card {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .code-card pre {
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ff9f43 0%, #feca57 100%);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .process-step {
+            background: #f8f9fa;
+            border-left: 5px solid #e67e22;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .important-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .important-note::before {
+            content: "💡 ";
+            font-size: 1.5rem;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .example-item {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #27ae60;
+        }
+
+        .arabic-text {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .routing-demo {
+            background: linear-gradient(45deg, #e67e22, #d35400);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .query-analysis {
+            background: #00b894;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .query-box {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #fdcb6e;
+        }
+
+        .engine-selection {
+            background: #6c5ce7;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+        }
+
+        td {
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9ff;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-right: 30px;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        code {
+            background: #f0f4ff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        strong {
+            color: #2c3e50;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        # تصميم Router AI Agent - شرح بالعامية المصرية
+        <div class="header">
+            <h1>🚀 تصميم Router AI Agent - شرح بالعامية المصرية</h1>
+            <p>شرح مفصل بالعامية المصرية</p>
+        </div>
 
+        <div class="card">
+            <h2 class="card-title">المقدمة</h2>
+            <div class="card-content arabic-text">
+                <p>في الفيديو ده هنصمم <strong>Router AI Agent</strong> باستخدام الأدوات اللي بيوفرها <strong>LlamaIndex</strong>.</p>
+<p>> <strong>ملحوظة مهمة:</strong> التصميم ممكن يختلف لو استخدمنا frameworks تانية، لأن كل framework بيوفر أدوات مختلفة.</p>
 
+            </div>
+        </div>
 
-## المقدمة
-في الفيديو ده هنصمم **Router AI Agent** باستخدام الأدوات اللي بيوفرها **LlamaIndex**. 
+        <div class="card">
+            <h2 class="card-title">خطوات التصميم الكاملة</h2>
+            <div class="card-content arabic-text">
+                
 
-> **ملحوظة مهمة:** التصميم ممكن يختلف لو استخدمنا frameworks تانية، لأن كل framework بيوفر أدوات مختلفة.
+            </div>
+        </div>
 
----
+        <div class="card">
+            <h2 class="card-title">المرحلة الأولى: معالجة مستند AeroFlow</h2>
+            <div class="card-content arabic-text">
+                
 
-## خطوات التصميم الكاملة
+                <div class="process-step">
+                    <h4>الخطوات:</h4>
+                    <div class="code-card"><pre>📄 مستند AeroFlow
+<p>⬇️</p>
+<p>✂️ تقسيم المستند لقطع صغيرة (Chunking)</p>
+<p>⬇️</p>
+<p>🔢 إنشاء Embeddings (تمثيلات رقمية)</p>
+<p>⬇️</p>
+<p>💾 حفظها في AeroFlow Index</p>
+<p>⬇️</p>
+<p>🔍 إنشاء AeroFlow Query Engine</pre></div></p>
+                </div>
 
-### المرحلة الأولى: معالجة مستند AeroFlow
+                <div class="process-step">
+                    <h4>التفاصيل:</h4>
+                    <p><strong>1. تقسيم المستند (Chunking)</strong></p>
+<ul>
+<li>ناخد المستند ونقسمه لـ <strong>قطع صغيرة</strong></li>
+<li>كل قطعة بتحتوي على معلومة معينة</li>
+</ul>
+<p><strong>2. إنشاء Embeddings</strong></p>
+<ul>
+<li>نحول كل قطعة لـ <strong>أرقام</strong> الكمبيوتر يفهمها</li>
+<li>ده <strong>تصميم RAG كلاسيكي</strong></li>
+</ul>
+<p><strong>3. حفظ في الفهرس</strong></p>
+<ul>
+<li>الـ Embeddings بتتحفظ في <strong>AeroFlow Index</strong></li>
+<li>زي ما تحفظ كتاب في مكتبة منظمة</li>
+</ul>
+<p><strong>4. إنشاء Query Engine</strong></p>
+<ul>
+<li>ده <strong>محرك البحث</strong> اللي هنستخدمه</li>
+<li>وظيفته: <strong>يدور ويجيب المستندات المناسبة</strong></li>
+</ul>
+                </div>
 
-#### الخطوات:
+            </div>
+        </div>
 
-```
-📄 مستند AeroFlow
-    ⬇️
-✂️ تقسيم المستند لقطع صغيرة (Chunking)
-    ⬇️
-🔢 إنشاء Embeddings (تمثيلات رقمية)
-    ⬇️
-💾 حفظها في AeroFlow Index
-    ⬇️
-🔍 إنشاء AeroFlow Query Engine
-```
+        <div class="card">
+            <h2 class="card-title">المرحلة الثانية: معالجة مستند EcoSprint</h2>
+            <div class="card-content arabic-text">
+                
 
-#### التفاصيل:
+                <div class="process-step">
+                    <h4>نفس الخطوات بالضبط:</h4>
+                    <div class="code-card"><pre>📄 مستند EcoSprint
+<p>⬇️</p>
+<p>✂️ تقسيم المستند (Chunking)</p>
+<p>⬇️</p>
+<p>🔢 إنشاء Embeddings</p>
+<p>⬇️</p>
+<p>💾 حفظها في EcoSprint Index</p>
+<p>⬇️</p>
+<p>🔍 إنشاء EcoSprint Query Engine</pre></div></p>
+                </div>
 
-**1. تقسيم المستند (Chunking)**
-- ناخد المستند ونقسمه لـ **قطع صغيرة**
-- كل قطعة بتحتوي على معلومة معينة
+            </div>
+        </div>
 
-**2. إنشاء Embeddings**
-- نحول كل قطعة لـ **أرقام** الكمبيوتر يفهمها
-- ده **تصميم RAG كلاسيكي**
+        <div class="card">
+            <h2 class="card-title">المرحلة الثالثة: تحويل Query Engines لأدوات (Tools)</h2>
+            <div class="card-content arabic-text">
+                
 
-**3. حفظ في الفهرس**
-- الـ Embeddings بتتحفظ في **AeroFlow Index**
-- زي ما تحفظ كتاب في مكتبة منظمة
+                <div class="process-step">
+                    <h4>ليه محتاجين Tools؟</h4>
+                    <ul>
+<li>عشان الـ <strong>Agent يقدر يستخدم</strong> الـ Query Engines</li>
+<li>في LlamaIndex، لازم <strong>نغلف</strong> كل Query Engine في Tool</li>
+</ul>
+                </div>
 
-**4. إنشاء Query Engine**
-- ده **محرك البحث** اللي هنستخدمه
-- وظيفته: **يدور ويجيب المستندات المناسبة**
+                <div class="process-step">
+                    <h4>إنشاء الأدوات:</h4>
+                    <p><strong>1. AeroFlow Tool</strong></p>
+<div class="code-card"><pre>🔍 AeroFlow Query Engine
+<p>⬇️</p>
+<p>🛠️ AeroFlow Tool</pre></div></p>
+<ul>
+<li><strong>بنغلف</strong> الـ AeroFlow Query Engine</li>
+<li>يبقى أداة جاهزة للاستخدام</li>
+</ul>
+<p><strong>2. EcoSprint Tool</strong></p>
+<div class="code-card"><pre>🔍 EcoSprint Query Engine
+<p>⬇️</p>
+<p>🛠️ EcoSprint Tool</pre></div></p>
+<ul>
+<li><strong>بنغلف</strong> الـ EcoSprint Query Engine</li>
+<li>يبقى أداة جاهزة للاستخدام</li>
+</ul>
+                </div>
 
----
+            </div>
+        </div>
 
-### المرحلة الثانية: معالجة مستند EcoSprint
+        <div class="card">
+            <h2 class="card-title">المرحلة الرابعة: إنشاء Router Agent</h2>
+            <div class="card-content arabic-text">
+                
 
-#### نفس الخطوات بالضبط:
+                <div class="process-step">
+                    <h4>التجميع النهائي:</h4>
+                    <div class="code-card"><pre>🛠️ AeroFlow Tool  ➕  🛠️ EcoSprint Tool
+<p>⬇️</p>
+<p>🤖 Router Agent</p>
+<p>⬇️</p>
+<p>✅ جاهز للاستخدام</pre></div></p>
+                </div>
 
-```
-📄 مستند EcoSprint
-    ⬇️
-✂️ تقسيم المستند (Chunking)
-    ⬇️
-🔢 إنشاء Embeddings
-    ⬇️
-💾 حفظها في EcoSprint Index
-    ⬇️
-🔍 إنشاء EcoSprint Query Engine
-```
+                <div class="process-step">
+                    <h4>مكونات الـ Router Agent:</h4>
+                    <ul>
+<li><strong>المدخلات</strong>: الأداتين (AeroFlow Tool + EcoSprint Tool)</li>
+<li><strong>الوظيفة</strong>: تنفيذ الاستعلامات والأهداف من المستخدم</li>
+<li><strong>القرار الذكي</strong>: اختيار الأداة المناسبة تلقائياً</li>
+</ul>
+                </div>
 
----
+            </div>
+        </div>
 
-### المرحلة الثالثة: تحويل Query Engines لأدوات (Tools)
+        <div class="card">
+            <h2 class="card-title">الصورة الكاملة للنظام</h2>
+            <div class="card-content arabic-text">
+                
 
-#### ليه محتاجين Tools؟
-- عشان الـ **Agent يقدر يستخدم** الـ Query Engines
-- في LlamaIndex، لازم **نغلف** كل Query Engine في Tool
+            </div>
+        </div>
 
-#### إنشاء الأدوات:
+        <div class="card">
+            <h2 class="card-title">المخطط الشامل:</h2>
+            <div class="card-content arabic-text">
+                <div class="code-card"><pre>📄 AeroFlow Doc          📄 EcoSprint Doc
+<p>⬇️                        ⬇️</p>
+<p>✂️ Chunk                  ✂️ Chunk</p>
+<p>⬇️                        ⬇️</p>
+<p>🔢 Embeddings            🔢 Embeddings</p>
+<p>⬇️                        ⬇️</p>
+<p>💾 Index                  💾 Index</p>
+<p>⬇️                        ⬇️</p>
+<p>🔍 Query Engine          🔍 Query Engine</p>
+<p>⬇️                        ⬇️</p>
+<p>🛠️ Tool                   🛠️ Tool</p>
+<p>⬇️                        ⬇️</p>
+<p>╰─────────┬──────────────╯</p>
+<p>⬇️</p>
+<p>🤖 Router Agent</p>
+<p>⬇️</p>
+<p>👤 المستخدم</pre></div></p>
 
-**1. AeroFlow Tool**
-```
-🔍 AeroFlow Query Engine
-    ⬇️
-🛠️ AeroFlow Tool
-```
-- **بنغلف** الـ AeroFlow Query Engine
-- يبقى أداة جاهزة للاستخدام
+            </div>
+        </div>
 
-**2. EcoSprint Tool**
-```
-🔍 EcoSprint Query Engine
-    ⬇️
-🛠️ EcoSprint Tool
-```
-- **بنغلف** الـ EcoSprint Query Engine
-- يبقى أداة جاهزة للاستخدام
+        <div class="card">
+            <h2 class="card-title">مثال عملي على الاستخدام</h2>
+            <div class="card-content arabic-text">
+                
 
----
+            </div>
+        </div>
 
-### المرحلة الرابعة: إنشاء Router Agent
+        <div class="card">
+            <h2 class="card-title">سيناريو الاستخدام:</h2>
+            <div class="card-content arabic-text">
+                <p><strong>المستخدم يسأل:</strong></p>
+<p>> "إيه أهم تقنيات AeroFlow؟"</p>
+<p><strong>الـ Router Agent بيعمل إيه:</strong></p>
+<div class="code-card"><pre>1. 🧠 يفهم السؤال
+<p>2. 🎯 يقرر إن السؤال عن AeroFlow</p>
+<p>3. 🛠️ يختار AeroFlow Tool</p>
+<p>4. 🔍 يستخدم AeroFlow Query Engine</p>
+<p>5. 📚 يجيب المعلومات من AeroFlow Index</p>
+<p>6. ✅ يرجع الإجابة للمستخدم</pre></div></p>
 
-#### التجميع النهائي:
+            </div>
+        </div>
 
-```
-🛠️ AeroFlow Tool  ➕  🛠️ EcoSprint Tool
-              ⬇️
-         🤖 Router Agent
-              ⬇️
-         ✅ جاهز للاستخدام
-```
+        <div class="card">
+            <h2 class="card-title">مقارنة بين المكونات</h2>
+            <div class="card-content arabic-text">
+                <table>
+<tr><th>المكون</th><th>الوصف</th><th>الوظيفة</th></tr>
+<tr><td><strong>Document</strong></td><td>المستند الأصلي</td><td>المصدر الأساسي للمعلومات</td></tr>
+<tr><td><strong>Chunks</strong></td><td>قطع صغيرة</td><td>تسهيل البحث والمعالجة</td></tr>
+<tr><td><strong>Embeddings</strong></td><td>أرقام</td><td>تمثيل رقمي للنصوص</td></tr>
+<tr><td><strong>Index</strong></td><td>الفهرس</td><td>تنظيم وحفظ البيانات</td></tr>
+<tr><td><strong>Query Engine</strong></td><td>محرك البحث</td><td>استرجاع المعلومات</td></tr>
+<tr><td><strong>Tool</strong></td><td>الأداة</td><td>واجهة للـ Agent</td></tr>
+<tr><td><strong>Router Agent</strong></td><td>الموجه الذكي</td><td>اتخاذ القرار والتنفيذ</td></tr>
+</table>
 
-#### مكونات الـ Router Agent:
-- **المدخلات**: الأداتين (AeroFlow Tool + EcoSprint Tool)
-- **الوظيفة**: تنفيذ الاستعلامات والأهداف من المستخدم
-- **القرار الذكي**: اختيار الأداة المناسبة تلقائياً
+            </div>
+        </div>
 
----
+        <div class="card">
+            <h2 class="card-title">النقاط المهمة</h2>
+            <div class="card-content arabic-text">
+                
 
-## الصورة الكاملة للنظام
+            </div>
+        </div>
 
-### المخطط الشامل:
+        <div class="card">
+            <h2 class="card-title">✅ ما تعلمناه:</h2>
+            <div class="card-content arabic-text">
+                <p>1. <strong>معالجة المستندات</strong> بطريقة منظمة</p>
+<p>2. <strong>إنشاء Indexes منفصلة</strong> لكل مستند</p>
+<p>3. <strong>تحويل Query Engines لـ Tools</strong></p>
+<p>4. <strong>بناء Router Agent</strong> يجمع كل حاجة</p>
 
-```
-📄 AeroFlow Doc          📄 EcoSprint Doc
-       ⬇️                        ⬇️
-    ✂️ Chunk                  ✂️ Chunk
-       ⬇️                        ⬇️
-   🔢 Embeddings            🔢 Embeddings
-       ⬇️                        ⬇️
-   💾 Index                  💾 Index
-       ⬇️                        ⬇️
-   🔍 Query Engine          🔍 Query Engine
-       ⬇️                        ⬇️
-   🛠️ Tool                   🛠️ Tool
-       ⬇️                        ⬇️
-       ╰─────────┬──────────────╯
-                 ⬇️
-            🤖 Router Agent
-                 ⬇️
-          👤 المستخدم
-```
+            </div>
+        </div>
 
----
+        <div class="card">
+            <h2 class="card-title">🎯 الهدف النهائي:</h2>
+            <div class="card-content arabic-text">
+                <p>> Agent ذكي <strong>يعرف يختار الأداة الصح</strong> لكل سؤال تلقائياً!</p>
 
-## مثال عملي على الاستخدام
+            </div>
+        </div>
 
-### سيناريو الاستخدام:
+        <div class="card">
+            <h2 class="card-title">الخطوات الجاية</h2>
+            <div class="card-content arabic-text">
+                <p>في الفيديوهات الجاية هنبدأ <strong>التطبيق العملي</strong>:</p>
+<ul>
+<li>كتابة الكود</li>
+<li>تجربة الـ Agent</li>
+<li>شوف النتائج الفعلية</li>
+</ul>
 
-**المستخدم يسأل:**
-> "إيه أهم تقنيات AeroFlow؟"
+            </div>
+        </div>
 
-**الـ Router Agent بيعمل إيه:**
+        <div class="card">
+            <h2 class="card-title">استعد للتطبيق! 🚀</h2>
+            <div class="card-content arabic-text">
+                
 
-```
-1. 🧠 يفهم السؤال
-2. 🎯 يقرر إن السؤال عن AeroFlow
-3. 🛠️ يختار AeroFlow Tool
-4. 🔍 يستخدم AeroFlow Query Engine
-5. 📚 يجيب المعلومات من AeroFlow Index
-6. ✅ يرجع الإجابة للمستخدم
-```
-
----
-
-## مقارنة بين المكونات
-
-| المكون | الوصف | الوظيفة |
-|--------|--------|---------|
-| **Document** | المستند الأصلي | المصدر الأساسي للمعلومات |
-| **Chunks** | قطع صغيرة | تسهيل البحث والمعالجة |
-| **Embeddings** | أرقام | تمثيل رقمي للنصوص |
-| **Index** | الفهرس | تنظيم وحفظ البيانات |
-| **Query Engine** | محرك البحث | استرجاع المعلومات |
-| **Tool** | الأداة | واجهة للـ Agent |
-| **Router Agent** | الموجه الذكي | اتخاذ القرار والتنفيذ |
-
----
-
-## النقاط المهمة
-
-### ✅ ما تعلمناه:
-1. **معالجة المستندات** بطريقة منظمة
-2. **إنشاء Indexes منفصلة** لكل مستند
-3. **تحويل Query Engines لـ Tools**
-4. **بناء Router Agent** يجمع كل حاجة
-
-### 🎯 الهدف النهائي:
-> Agent ذكي **يعرف يختار الأداة الصح** لكل سؤال تلقائياً!
-
----
-
-## الخطوات الجاية
-
-في الفيديوهات الجاية هنبدأ **التطبيق العملي**:
-- كتابة الكود
-- تجربة الـ Agent
-- شوف النتائج الفعلية
-
-### استعد للتطبيق! 🚀
-
+            </div>
+        </div>
 
     </div>
 </body>
